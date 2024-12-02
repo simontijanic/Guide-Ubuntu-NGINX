@@ -3,9 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <script defer src="script.js"></script>
     <title>Guide Ubuntu - Simon Tijanic</title>
 </head>
 <body>
-    <h1>GUIDE UBUNTU</h1>
+    <header class="header">
+        <h1>Guide til Ubuntu</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a class="active" href="#1"><span>1</span> Opretting av VM</a>
+            <a href="#2"><span>2</span> Start og installer Ubuntu</a>
+            <a href="#3"><span>3</span> Installer Ubuntu Webserver (Nginx)</a>
+            <a href="#4"><span>4</span> Lag nettsiden</a>
+            <a href="#5"><span>5</span> Deploy nettsiden fra Git</a>
+            <a href="#6"><span>6</span> Restart Nginx</a>
+            <a href="#7"><span>7</span> Tips</a>
+        </div>
+        <div class="chapters">
+            <div class="chapter" id="1">
+                <h1>1. Opretting av virtuell maskin</h1>
+                <div>
+                    <h2>Velg ditt Elev-Pool</h2>
+                    <p>Finn ditt <strong>pool</strong>. I dette eksempelet bruker vi gruppen <strong>"Bad-Ai", pool #14 ("Megatron")</strong>. Høyreklikk på poolet ditt og velg <strong>"New Virtual Machine"</strong>.</p>
+                </div>
+                <div>
+                    <h2>Lag en ny VM</h2>
+                    <p>Finn ditt pool. I dette eksempelet bruker vi gruppen "Bad-Ai", pool #14 ("Megatron"). Høyreklikk på poolet ditt og velg <strong>"New Virtual Machine"</strong>.</p>
+                </div>
+                <div>
+                    <h2>Computer resource</h2>
+                    <p>Dette velges som regel automatisk. Hvis ikke, velg poolet ditt.</p>
+                </div>
+                <div>
+                    <h2>Lagringsplass</h2>
+                    <p>Velg lagringsenheten med mest tilgjengelig plass</p>
+                </div>
+                <div>
+                    <h2>Kompatibilitet</h2>
+                    <p>La standardinnstillingen stå</p>
+                </div>
+                <div>
+                    <h2>Velg operativsystem (OS)</h2>
+                    <p><strong>Guest OS Family</strong>: Velg Linux. <br><strong>Versjon</strong>: Velg Ubuntu Linux 64-bit.</p>
+                </div>
+                <div>
+                    <h2>Hardware-konfigurasjon</h2>
+                    <p>
+                        <strong>Harddisk</strong>: Velg "New Hard Disk" → <strong>Disk Provisioning: "Thin Provision"</strong> → Sett størrelse til 8 GB (minst mulig plassbehov). <br><strong>Nettverkskort</strong>: Velg elev-pool, og sørg for at <strong>"Connect at power on"</strong> er aktivert. <br><strong>CD/DVD Drive</strong>: Velg <strong>Content Library ISO File</strong>, deretter <strong>Ubuntu 22.0x</strong>, og merk av for <strong> "Connect at power on"</strong>.
+                    </p>
+                </div>
+                <div>
+                    <h2>Fullfør opprettelsen</h2>
+                    <p>Sjekk at alt stemmer, og klikk <strong>"Finish"</strong>. Du vil nå se VM-en under poolet ditt.</p>
+                </div>
+            </div>
+            <div class="chapter" id="2">
+                <div>
+                    <h2>Start VM-en</h2>
+                    <p>Høyreklikk på VM-en → <strong>Power → Power On</strong>. <br>Klikk på <strong>Launch Web Console</strong> for å åpne konsollen.</p>
+                </div>
+                <div>
+                    <h2>Ubuntu-installasjon</h2>
+                    <p><strong>Språk</strong>: Velg <strong>Engelsk</strong> (lettere å finne guider og hjelp).
+                        <br><strong>Tastatur</strong>: Velg <strong>Norwegian</strong> med varianten <strong>Win Keys</strong>.</p>
+                </div>
+                <div>
+                    <h2>Nettverkskonfigurasjon</h2>
+                    <p>
+                        Velg <strong>ens33 (eth0) → Edit IPv4 → Manual</strong>. <br>
+                        <strong>Fyll inn følgende</strong>: <br>
+                        <strong>Subnet</strong>: 10.12.[ditt pool].0/24 <br>
+                        <strong>Address</strong>: 10.12.[ditt pool].[valgfritt tall mellom 2 og 254] <br>
+                        <strong>Gateway</strong>: 10.12.[ditt pool].1 <br>
+                        <strong>Name Servers</strong>: 10.12.pool.10, 10.10.1.30, 1.1.1.1, 1.0.0.1 <br>
+                        <strong>Search Domains</strong>: ikt-fag <br>
+                        Klikk <strong>Save</strong> og gå videre.
+                    </p>
+                </div>
+                <div>
+                    <h2>Fullfør konfigurasjon</h2>
+                    <p> 
+                        Proxy og mirror-adresser: Gå videre uten endringer. <br>
+                        Installer oppdateringer om det foreslås, og vent til oppdateringen er ferdig. <br>
+                        Bruk standardvalg for lagring.
+                    </p>
+                </div>
+                <div>
+                    <h2>Profilkonfigurasjon</h2>
+                    <p>
+                        <strong>Your Name</strong>: Skriv ditt eget navn.
+                        <strong>Server Name</strong>: Eksempelvis "UbuntuGuide".
+                        <strong>Username</strong>: Bruk et navn du kan huske til SSH, f.eks. student14.
+                        <strong>SSH-konfigurasjon</strong>: Aktiver <strong>Install OpenSSH Server</strong>.
+                    </p>
+                </div>
+            </div>
+            <div class="chapter" id="3">
+                <h1>3. Installer Ubuntu Webserver (Nginx)</h1>
+                <div>
+                    <h2>Oppdater systemet</h2>
+                    <p>Kjør følgende kommando for å oppdatere pakkelisten og oppgradere installerte pakker:</p>
+                    <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+                    <p>Når du bruker <strong>sudo</strong>, vil du bli bedt om å skrive inn passordet ditt. Dette er fordi du utfører kommandoen som superbruker (root).</p>
+                </div>
+                <div>
+                    <h2>Installer Nginx</h2>
+                    <p>Installer Nginx med følgende kommando:</p>
+                    <pre><code>sudo apt install nginx -y</code></pre>
+                </div>
+                <div>
+                    <h2>Kontroller status på Nginx</h2>
+                    <p>For å sjekke om Nginx kjører, kan du bruke:</p>
+                    <pre><code>sudo systemctl status nginx</code></pre>
+                    <p>Hvis det står <strong>active (running)</strong>, betyr det at Nginx fungerer som det skal. Hvis det ikke er aktivt, prøv å starte det på nytt med:</p>
+                    <pre><code>sudo systemctl start nginx</code></pre>
+                </div>
+            </div>
+            <div class="chapter" id="4">
+                <h1>4. Lag nettsiden</h1>
+                <div>
+                    <h2>Opprett katalog for nettsiden</h2>
+                    <p>Lag en katalog hvor nettsiden din skal ligge:</p>
+                    <pre><code>sudo mkdir -p /var/www/brukernavn.ikt-fag.no</code></pre>
+                </div>
+                <div>
+                    <h2>Sett eierskap</h2>
+                    <p>Endre eierskap på katalogen slik at du som bruker kan administrere den:</p>
+                    <pre><code>sudo chown -R $USER:$USER /var/www/brukernavn.ikt-fag.no</code></pre>
+                </div>
+                <div>
+                    <h2>Opprett Nginx-konfigurasjon</h2>
+                    <p>Rediger Nginx-konfigurasjonen for nettsiden:</p>
+                    <pre><code>sudo nano /etc/nginx/sites-available/brukernavn.ikt-fag.no</code></pre>
+                    <p>Lim inn følgende konfigurasjon:</p>
+                    <pre><code>server { <br>
+        listen 80; <br>
+        server_name brukernavn.ikt-fag.no eller ip-en; <br>
+        root /var/www/brukernavn.ikt-fag.no; <br>
+        index index.html; <br>
+        }</code></pre>
+                </div>
+                <div>
+                    <h2>Aktiver nettsiden</h2>
+                    <p>Lag en symbolsk lenke til <strong>sites-enabled</strong>-katalogen for å aktivere nettstedet:</p>
+                    <pre><code>sudo ln -s /etc/nginx/sites-available/brukernavn.ikt-fag.no /etc/nginx/sites-enabled/</code></pre>
+                </div>
+            </div>
+            <div class="chapter" id="5">
+                <h1>5. Deploy nettsiden fra Git</h1>
+                <div>
+                    <h2>Naviger til nettsidens katalog</h2>
+                    <p>Gå til katalogen for nettsiden din:</p>
+                    <pre><code>cd /var/www/brukernavn.ikt-fag.no</code></pre>
+                </div>
+                <div>
+                    <h2>Klon prosjektet</h2>
+                    <p>Klon prosjektet ditt fra GitHub eller et annet Git-repository:</p>
+                    <pre><code>git clone &lt;URL-til-prosjektet&gt;</code></pre>
+                </div>
+                <div>
+                    <h2>Kontroller at prosjektet ble klonet</h2>
+                    <p>Bruk <strong>ls</strong>-kommandoen for å se om mappen ble klonet:</p>
+                    <pre><code>ls</code></pre>
+                </div>
+                <div>
+                    <h2>Flytt innholdet ut av den klonede mappen</h2>
+                    <p>Hvis prosjektet ble klonet inn i en undermappe, kan du flytte innholdet til overordnet mappe:</p>
+                    <pre><code>mv /sti/til/mappen/{*,.*} /sti/til/mappen/..</code></pre>
+                </div>
+                <div>
+                    <h2>Slett den tomme mappen</h2>
+                    <p>Fjern den tomme mappen som ble opprettet under kloningen:</p>
+                    <pre><code>rmdir /sti/til/mappen</code></pre>
+                </div>
+            </div>
+            <div class="chapter" id="6">
+                <h1>6. Restart Nginx</h1>
+                <div>
+                    <h2>Last inn Nginx på nytt</h2>
+                    <p>Når alt er på plass, last Nginx på nytt for å bruke de nye konfigurasjonene:</p>
+                    <pre><code>sudo systemctl reload nginx</code></pre>
+                </div>
+                <div>
+                    <h2>Feilsøking</h2>
+                    <p>Hvis du får en feilmelding, kan du sjekke statusen til Nginx for å få mer informasjon:</p>
+                    <pre><code>sudo systemctl status nginx.service</code></pre>
+                    <p>Hvis Nginx ikke starter, kan du bruke <strong>nginx -t</strong> for å teste konfigurasjonen:</p>
+                    <pre><code>sudo nginx -t</code></pre>
+                    <p>Hvis det er feil i konfigurasjonen, vil du få detaljer om hva som er galt. Rette feilen og test på nytt.</p>
+                </div>
+            </div>
+            <div class="chapter" id="7">
+                <h1>7. Tips</h1>
+                <div>
+                    <h2>Unngå utilsiktede kommandoer i konfigurasjonsfiler</h2>
+                    <p>Hvis du ved en feil skrev inn editorkommandoer som nano i konfigurasjonsfilene, pass på å lagre og lukke filene korrekt.</p>
+                </div>
+                <div>
+                    <h2>Lag en sikkerhetskopi av konfigurasjonsfilene</h2>
+                    <p>Før du redigerer viktige filer som <strong>/etc/nginx/sites-enabled/</strong>, lag en sikkerhetskopi:</p>
+                    <pre><code>sudo cp /etc/nginx/sites-enabled/brukernavn.ikt-fag.no /etc/nginx/sites-enabled/brukernavn.ikt-fag.no.bak</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
