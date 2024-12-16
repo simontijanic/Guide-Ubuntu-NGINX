@@ -1,89 +1,129 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .header {
-    width: 100%;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
 }
 
 .container {
-    width: 100%;
+  width: 100%;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    gap: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 2rem;
 
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .sidebar {
-    width: 30%;
-    display: flex;
-    gap: 3rem;
-    flex-direction: column;
-    justify-content: center;
-    height: 100vh;
+  width: 30%;
+  display: flex;
+  gap: 3rem;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
 }
-.sidebar a  {
-    text-decoration: none;
-    color: black;
+.sidebar a {
+  text-decoration: none;
+  color: black;
 }
 .sidebar a span {
-    font-weight: 800;
+  font-weight: 800;
 }
 .sidebar a.active {
-    color: rgba(0, 0, 0, 0.557);
+  color: rgba(0, 0, 0, 0.557);
 }
-
 
 .chapters {
-    height: 100%;
-    width: 40%;
+  height: 100%;
+  width: 40%;
 
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 
-    font-size: 1rem;
-
+  font-size: 1rem;
 }
 .chapters .chapter {
-    display: none;
-    flex-direction: column;
-    gap: 2rem;
-    height: 100%;
-    width: 100%;
-    padding: 1rem;
-    border-left: 1px solid rgba(0, 0, 0, 0.406);
+  display: none;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  border-left: 1px solid rgba(0, 0, 0, 0.406);
 }
 
 .chapters .chapter:nth-child(1) {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+  width: 100%;
 }
 
 .chapters .chapter div {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: first baseline;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: first baseline;
 }
 
 code {
-    padding: 0.5rem;
-    background-color: rgba(22, 22, 22, 0.698);
-    color: white;
-    border-radius: 5px;
+  padding: 0.5rem;
+  background-color: rgba(22, 22, 22, 0.698);
+  color: white;
+  border-radius: 5px;
+  display: block; /* Ensures code spans full width */
+  word-wrap: break-word; /* Breaks long words or strings */
+  overflow-x: auto; /* Adds horizontal scroll for very long code snippets */
+  white-space: pre-wrap; /* Preserves formatting but allows wrapping */
+}
+
+.image {
+    width: 100%;
+}
+
+.image img {
+    object-fit: cover;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .header {
+    height: 150px;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 150px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    height: 150px;
+    font-size: 1rem;
+  }
+
+  .container {
+    font-size: 1.25rem;
+  }
+
+  .chapters {
+    font-size: 0.8rem;
+  }
 }
